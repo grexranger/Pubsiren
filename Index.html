@@ -23,9 +23,9 @@
       --text-dim: #3a4a5a;
       --btn-bg: #0e1520;
     }
-
+ 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-
+ 
     body {
       background: var(--bg);
       color: var(--text);
@@ -36,7 +36,8 @@
       overflow: hidden;
       user-select: none;
     }
-
+ 
+    /* ── LIGHTBAR ─────────────────── */
     .lightbar {
       display: flex;
       height: 56px;
@@ -44,7 +45,7 @@
       border-bottom: 2px solid #0a1020;
       position: relative;
     }
-
+ 
     .lb-half {
       flex: 1;
       display: flex;
@@ -52,7 +53,7 @@
       padding: 10px 6px;
       align-items: stretch;
     }
-
+ 
     .lb-pod {
       flex: 1;
       border-radius: 3px;
@@ -60,13 +61,13 @@
       border: 1px solid #0d1a30;
       transition: background 40ms, box-shadow 40ms, border-color 40ms;
     }
-
+ 
     .lb-pod.on-blue {
       background: var(--blue-flash);
       box-shadow: 0 0 14px 4px rgba(0,180,255,0.75), 0 0 28px 8px rgba(0,180,255,0.3);
       border-color: #90dcff;
     }
-
+ 
     .lb-center {
       width: 56px;
       flex-shrink: 0;
@@ -80,7 +81,8 @@
       border-left: 1px solid #0a1520;
       border-right: 1px solid #0a1520;
     }
-
+ 
+    /* ── STATUS BAR ───────────────── */
     .statusbar {
       display: flex;
       align-items: center;
@@ -89,7 +91,7 @@
       border-bottom: 1px solid var(--border);
       gap: 10px;
     }
-
+ 
     .status-pill {
       font-family: 'Share Tech Mono', monospace;
       font-size: 9px;
@@ -106,7 +108,7 @@
       background: rgba(26,111,255,0.08);
       box-shadow: 0 0 8px rgba(26,111,255,0.2);
     }
-
+ 
     .status-mode {
       flex: 1;
       text-align: center;
@@ -115,13 +117,14 @@
       letter-spacing: 3px;
       color: var(--amber);
     }
-
+ 
     .status-vol {
       font-family: 'Share Tech Mono', monospace;
       font-size: 9px;
       color: var(--text-dim);
     }
-
+ 
+    /* ── MAIN ─────────────────────── */
     .main {
       flex: 1;
       display: flex;
@@ -130,7 +133,8 @@
       gap: 10px;
       overflow-y: auto;
     }
-
+ 
+    /* ── SIREN TOGGLE ─────────────── */
     .siren-btn {
       background: var(--btn-bg);
       border: 2px solid var(--border);
@@ -158,7 +162,7 @@
       background: #0a1828;
     }
     .siren-btn.on::after { opacity: 1; }
-
+ 
     .siren-eyebrow {
       font-size: 10px;
       font-weight: 600;
@@ -184,14 +188,15 @@
       transition: color 0.15s;
       z-index: 1;
     }
-
+ 
     .siren-btn.on .siren-eyebrow,
     .siren-btn.on .siren-sub { color: var(--blue-bright); }
     .siren-btn.on .siren-word {
       color: var(--blue-bright);
       text-shadow: 0 0 40px rgba(90,176,255,0.5), 0 0 80px rgba(90,176,255,0.2);
     }
-
+ 
+    /* ── SECTION LABEL ────────────── */
     .sec-label {
       font-size: 9px;
       letter-spacing: 3px;
@@ -199,13 +204,14 @@
       font-weight: 700;
       padding-left: 2px;
     }
-
+ 
+    /* ── MODE GRID ────────────────── */
     .mode-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 7px;
     }
-
+ 
     .mode-btn {
       background: var(--btn-bg);
       border: 1px solid var(--border);
@@ -222,7 +228,7 @@
       border-color: var(--blue);
       background: #0a1828;
     }
-
+ 
     .mode-dot {
       width: 5px; height: 5px;
       border-radius: 50%;
@@ -234,7 +240,7 @@
       background: var(--blue-bright);
       box-shadow: 0 0 5px rgba(90,176,255,0.8);
     }
-
+ 
     .mode-name {
       font-size: 20px;
       font-weight: 700;
@@ -243,19 +249,21 @@
       transition: color 0.1s;
     }
     .mode-btn.sel .mode-name { color: var(--blue-bright); }
-
+ 
     .mode-desc {
       font-size: 10px;
       letter-spacing: 1px;
       color: var(--text-dim);
     }
-
+ 
+    /* ── BOTTOM ROW ───────────────── */
     .bottom-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 7px;
     }
-
+ 
+    /* ── HORN ─────────────────────── */
     .horn-btn {
       background: var(--btn-bg);
       border: 1px solid var(--border);
@@ -284,7 +292,8 @@
       letter-spacing: 2px;
       color: var(--text-dim);
     }
-
+ 
+    /* ── VOLUME ───────────────────── */
     .vol-block {
       background: var(--btn-bg);
       border: 1px solid var(--border);
@@ -326,7 +335,8 @@
       box-shadow: 0 0 6px rgba(90,176,255,0.6);
       cursor: pointer;
     }
-
+ 
+    /* ── SCREEN FLASH ─────────────── */
     #flashVeil {
       position: fixed; inset: 0;
       pointer-events: none;
@@ -338,9 +348,10 @@
   </style>
 </head>
 <body>
-
+ 
 <div id="flashVeil"></div>
-
+ 
+<!-- LIGHTBAR -->
 <div class="lightbar">
   <div class="lb-half" id="lbL">
     <div class="lb-pod" id="p0"></div>
@@ -358,21 +369,23 @@
     <div class="lb-pod" id="p9"></div>
   </div>
 </div>
-
+ 
+<!-- STATUS BAR -->
 <div class="statusbar">
   <div class="status-pill" id="sPill">STANDBY</div>
   <div class="status-mode" id="sMode">HI-LO</div>
   <div class="status-vol" id="sVol">VOL 80%</div>
 </div>
-
+ 
+<!-- MAIN -->
 <div class="main">
-
+ 
   <button class="siren-btn" id="sirenBtn" onclick="toggleSiren()">
     <div class="siren-eyebrow">TRYK FOR AT AKTIVERE</div>
     <div class="siren-word">SIRENE</div>
     <div class="siren-sub" id="sirenSub">● INAKTIV</div>
   </button>
-
+ 
   <div class="sec-label">SIRENETYPE</div>
   <div class="mode-grid">
     <button class="mode-btn sel" data-mode="hilo" onclick="selectMode('hilo',this)">
@@ -396,7 +409,7 @@
       <div class="mode-desc">FM-moduleret</div>
     </button>
   </div>
-
+ 
   <div class="bottom-row">
     <div>
       <div class="sec-label" style="margin-bottom:7px">HORN</div>
@@ -416,10 +429,11 @@
       </div>
     </div>
   </div>
-
+ 
 </div>
-
+ 
 <script>
+// ── AUDIO ──────────────────────────────────────────────────
 let ctx, masterGain;
 let sirenNodes = [];
 let hornNodes  = [];
@@ -429,7 +443,7 @@ let curMode    = 'hilo';
 let vol        = 0.8;
 let animId     = null;
 let hiloTimer  = null;
-
+ 
 function ensureCtx() {
   if (!ctx) {
     ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -439,12 +453,13 @@ function ensureCtx() {
   }
   if (ctx.state === 'suspended') ctx.resume();
 }
-
+ 
 function killNodes(arr) {
   arr.forEach(n => { try { n.stop && n.stop(); n.disconnect(); } catch(e){} });
   arr.length = 0;
 }
-
+ 
+// ── SIREN MODES ────────────────────────────────────────────
 function startSiren() {
   killNodes(sirenNodes);
   if (animId)    { cancelAnimationFrame(animId); animId = null; }
@@ -452,38 +467,43 @@ function startSiren() {
   ensureCtx();
   ({ hilo: doHiLo, wail: doWail, yelp: doYelp, phaser: doPhaser }[curMode])();
 }
-
+ 
 function stopSiren() {
   killNodes(sirenNodes);
   if (animId)    { cancelAnimationFrame(animId); animId = null; }
   if (hiloTimer) { clearInterval(hiloTimer); hiloTimer = null; }
   lightsOff();
 }
-
+ 
+// HI-LO — alternating 580 / 970 Hz, 550 ms each
 function doHiLo() {
   const osc  = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.type = 'sawtooth';
   gain.gain.value = 0.55;
   osc.connect(gain); gain.connect(masterGain);
+ 
   const freqs = [970, 580];
-  let t = ctx.currentTime;
+  let step = 0, t = ctx.currentTime;
   for (let i = 0; i < 200; i++) {
     osc.frequency.setValueAtTime(freqs[i % 2], t);
     t += 0.55;
   }
   osc.start();
   sirenNodes.push(osc, gain);
+ 
   let phase = true;
   hiloTimer = setInterval(() => { flashLights(phase); phase = !phase; }, 550);
 }
-
+ 
+// WAIL — slow sine sweep 500→1400 Hz, 3 s
 function doWail() {
   const osc  = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.type = 'sawtooth'; gain.gain.value = 0.5;
   osc.connect(gain); gain.connect(masterGain);
   osc.start(); sirenNodes.push(osc, gain);
+ 
   let t0 = null;
   const period = 3000, lo = 500, hi = 1400;
   function tick(ts) {
@@ -495,13 +515,15 @@ function doWail() {
   }
   animId = requestAnimationFrame(tick);
 }
-
+ 
+// YELP — fast sweep 700→1600 Hz, 220 ms
 function doYelp() {
   const osc  = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.type = 'sawtooth'; gain.gain.value = 0.48;
   osc.connect(gain); gain.connect(masterGain);
   osc.start(); sirenNodes.push(osc, gain);
+ 
   let t0 = null;
   const period = 220, lo = 700, hi = 1600;
   function tick(ts) {
@@ -513,7 +535,8 @@ function doYelp() {
   }
   animId = requestAnimationFrame(tick);
 }
-
+ 
+// PHASER — FM: carrier 900 Hz, LFO 3.5 Hz ±350 Hz
 function doPhaser() {
   const car  = ctx.createOscillator();
   const lfo  = ctx.createOscillator();
@@ -526,6 +549,7 @@ function doPhaser() {
   car.connect(gain); gain.connect(masterGain);
   car.start(); lfo.start();
   sirenNodes.push(car, lfo, lfoG, gain);
+ 
   let t0 = null;
   function tick(ts) {
     if (!t0) t0 = ts;
@@ -534,7 +558,8 @@ function doPhaser() {
   }
   animId = requestAnimationFrame(tick);
 }
-
+ 
+// ── HORN ───────────────────────────────────────────────────
 function startHorn() {
   if (hornOn) return; hornOn = true;
   ensureCtx();
@@ -553,11 +578,12 @@ function stopHorn() {
   killNodes(hornNodes);
   document.getElementById('hornBtn').classList.remove('pressed');
 }
-
+ 
+// ── LIGHTS ─────────────────────────────────────────────────
 const pods  = Array.from(document.querySelectorAll('.lb-pod'));
 const veil  = document.getElementById('flashVeil');
 let lastPhase = null;
-
+ 
 function flashLights(leftOn) {
   if (leftOn === lastPhase) return;
   lastPhase = leftOn;
@@ -567,27 +593,28 @@ function flashLights(leftOn) {
   veil.style.opacity = '1';
   requestAnimationFrame(() => { veil.style.opacity = '0'; });
 }
-
+ 
 function lightsOff() {
   lastPhase = null;
   pods.forEach(p => p.classList.remove('on-blue'));
   veil.style.opacity = '0';
 }
-
+ 
+// ── CONTROLS ───────────────────────────────────────────────
 function toggleSiren() {
   sirenOn = !sirenOn;
-  const btn  = document.getElementById('sirenBtn');
-  const pill = document.getElementById('sPill');
-  const sub  = document.getElementById('sirenSub');
+  const btn   = document.getElementById('sirenBtn');
+  const pill  = document.getElementById('sPill');
+  const sub   = document.getElementById('sirenSub');
   btn.classList.toggle('on', sirenOn);
   pill.classList.toggle('live', sirenOn);
   pill.textContent = sirenOn ? 'AKTIV' : 'STANDBY';
   sub.textContent  = sirenOn ? '● AKTIV' : '● INAKTIV';
   sirenOn ? startSiren() : stopSiren();
 }
-
+ 
 const modeNames = { hilo:'HI-LO', wail:'WAIL', yelp:'YELP', phaser:'PHASER' };
-
+ 
 function selectMode(mode, el) {
   curMode = mode;
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('sel'));
@@ -595,14 +622,15 @@ function selectMode(mode, el) {
   document.getElementById('sMode').textContent = modeNames[mode];
   if (sirenOn) { stopSiren(); startSiren(); }
 }
-
+ 
 function setVol(v) {
   vol = v / 100;
   document.getElementById('volVal').textContent = v + '%';
   document.getElementById('sVol').textContent   = 'VOL ' + v + '%';
   if (masterGain) masterGain.gain.value = vol;
 }
-
+ 
+// ── HORN EVENTS ────────────────────────────────────────────
 const hb = document.getElementById('hornBtn');
 hb.addEventListener('mousedown',   startHorn);
 hb.addEventListener('touchstart',  e => { e.preventDefault(); startHorn(); }, { passive: false });
