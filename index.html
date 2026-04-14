@@ -10,374 +10,107 @@
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #080b0f;
-      --panel: #0e1218;
-      --border: #1a2230;
-      --border-hi: #243040;
-      --blue: #1a6fff;
-      --blue-bright: #5ab0ff;
-      --blue-flash: #00b4ff;
-      --amber: #ffaa00;
-      --green: #00dd66;
-      --text: #b8c8d8;
-      --text-dim: #3a4a5a;
-      --btn-bg: #0e1520;
+      --bg: #080b0f; --panel: #0e1218; --border: #1a2230;
+      --blue: #1a6fff; --blue-bright: #5ab0ff; --blue-flash: #00b4ff;
+      --amber: #ffaa00; --green: #00dd66; --text: #b8c8d8; --text-dim: #3a4a5a; --btn-bg: #0e1520;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    body { background: var(--bg); color: var(--text); font-family: 'Barlow Condensed', sans-serif; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Barlow Condensed', sans-serif;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      user-select: none;
-    }
+    .lightbar { display: flex; height: 52px; background: #050709; border-bottom: 2px solid #0a1020; flex-shrink: 0; }
+    .lb-half { flex: 1; display: flex; gap: 3px; padding: 9px 6px; }
+    .lb-pod { flex: 1; border-radius: 3px; background: #0a1525; border: 1px solid #0d1a30; transition: background 40ms, box-shadow 40ms, border-color 40ms; }
+    .lb-pod.on-blue { background: var(--blue-flash); box-shadow: 0 0 14px 4px rgba(0,180,255,.75), 0 0 28px 8px rgba(0,180,255,.3); border-color: #90dcff; }
+    .lb-center { width: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Share Tech Mono', monospace; font-size: 7px; letter-spacing: 1.5px; color: #1a2a40; border-left: 1px solid #0a1520; border-right: 1px solid #0a1520; }
 
-    /* ── LIGHTBAR ─────────────────── */
-    .lightbar {
-      display: flex;
-      height: 56px;
-      background: #050709;
-      border-bottom: 2px solid #0a1020;
-      position: relative;
-    }
+    .statusbar { display: flex; align-items: center; padding: 6px 14px; background: #0a0e14; border-bottom: 1px solid var(--border); gap: 10px; flex-shrink: 0; }
+    .status-pill { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 8px; border-radius: 2px; border: 1px solid var(--border); color: var(--text-dim); transition: all .15s; }
+    .status-pill.live { color: var(--blue-bright); border-color: var(--blue); background: rgba(26,111,255,.08); box-shadow: 0 0 8px rgba(26,111,255,.2); }
+    .status-mode { flex: 1; text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; color: var(--amber); }
+    .status-vol { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--text-dim); }
 
-    .lb-half {
-      flex: 1;
-      display: flex;
-      gap: 3px;
-      padding: 10px 6px;
-      align-items: stretch;
-    }
+    .main { flex: 1; display: flex; flex-direction: column; padding: 10px 14px; gap: 8px; overflow-y: auto; }
 
-    .lb-pod {
-      flex: 1;
-      border-radius: 3px;
-      background: #0a1525;
-      border: 1px solid #0d1a30;
-      transition: background 40ms, box-shadow 40ms, border-color 40ms;
-    }
-
-    .lb-pod.on-blue {
-      background: var(--blue-flash);
-      box-shadow: 0 0 14px 4px rgba(0,180,255,0.75), 0 0 28px 8px rgba(0,180,255,0.3);
-      border-color: #90dcff;
-    }
-
-    .lb-center {
-      width: 56px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 8px;
-      letter-spacing: 1.5px;
-      color: #1a2a40;
-      border-left: 1px solid #0a1520;
-      border-right: 1px solid #0a1520;
-    }
-
-    /* ── STATUS BAR ───────────────── */
-    .statusbar {
-      display: flex;
-      align-items: center;
-      padding: 7px 14px;
-      background: #0a0e14;
-      border-bottom: 1px solid var(--border);
-      gap: 10px;
-    }
-
-    .status-pill {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 2px;
-      padding: 3px 8px;
-      border-radius: 2px;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      transition: all 0.15s;
-    }
-    .status-pill.live {
-      color: var(--blue-bright);
-      border-color: var(--blue);
-      background: rgba(26,111,255,0.08);
-      box-shadow: 0 0 8px rgba(26,111,255,0.2);
-    }
-
-    .status-mode {
-      flex: 1;
-      text-align: center;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 13px;
-      letter-spacing: 3px;
-      color: var(--amber);
-    }
-
-    .status-vol {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 9px;
-      color: var(--text-dim);
-    }
-
-    /* ── MAIN ─────────────────────── */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 12px 14px;
-      gap: 10px;
-      overflow-y: auto;
-    }
-
-    /* ── SIREN TOGGLE ─────────────── */
-    .siren-btn {
-      background: var(--btn-bg);
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      padding: 20px 16px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.15s, background 0.15s;
-    }
-    .siren-btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 60%, rgba(26,111,255,0.18) 0%, transparent 65%);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .siren-btn.on {
-      border-color: var(--blue);
-      background: #0a1828;
-    }
+    .siren-btn { background: var(--btn-bg); border: 2px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; overflow: hidden; transition: border-color .15s, background .15s; flex-shrink: 0; }
+    .siren-btn::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(26,111,255,.18) 0%, transparent 65%); opacity: 0; transition: opacity .2s; }
+    .siren-btn.on { border-color: var(--blue); background: #0a1828; }
     .siren-btn.on::after { opacity: 1; }
+    .siren-eyebrow { font-size: 9px; font-weight: 600; letter-spacing: 4px; color: var(--text-dim); transition: color .15s; z-index: 1; }
+    .siren-word { font-size: 48px; font-weight: 900; letter-spacing: 8px; line-height: 1; color: var(--text-dim); transition: color .15s, text-shadow .15s; z-index: 1; }
+    .siren-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-dim); transition: color .15s; z-index: 1; }
+    .siren-btn.on .siren-eyebrow, .siren-btn.on .siren-sub { color: var(--blue-bright); }
+    .siren-btn.on .siren-word { color: var(--blue-bright); text-shadow: 0 0 40px rgba(90,176,255,.5); }
 
-    .siren-eyebrow {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 4px;
-      color: var(--text-dim);
-      transition: color 0.15s;
-      z-index: 1;
-    }
-    .siren-word {
-      font-size: 56px;
-      font-weight: 900;
-      letter-spacing: 8px;
-      line-height: 1;
-      color: var(--text-dim);
-      transition: color 0.15s, text-shadow 0.15s;
-      z-index: 1;
-    }
-    .siren-sub {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: var(--text-dim);
-      transition: color 0.15s;
-      z-index: 1;
-    }
+    .sec-label { font-size: 9px; letter-spacing: 3px; color: var(--text-dim); font-weight: 700; padding-left: 2px; flex-shrink: 0; }
 
-    .siren-btn.on .siren-eyebrow,
-    .siren-btn.on .siren-sub { color: var(--blue-bright); }
-    .siren-btn.on .siren-word {
-      color: var(--blue-bright);
-      text-shadow: 0 0 40px rgba(90,176,255,0.5), 0 0 80px rgba(90,176,255,0.2);
-    }
-
-    /* ── SECTION LABEL ────────────── */
-    .sec-label {
-      font-size: 9px;
-      letter-spacing: 3px;
-      color: var(--text-dim);
-      font-weight: 700;
-      padding-left: 2px;
-    }
-
-    /* ── MODE GRID ────────────────── */
-    .mode-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7px;
-    }
-
-    .mode-btn {
-      background: var(--btn-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 12px 10px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      transition: border-color 0.1s, background 0.1s;
-      text-align: left;
-    }
-    .mode-btn.sel {
-      border-color: var(--blue);
-      background: #0a1828;
-    }
-
-    .mode-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--border);
-      transition: background 0.1s, box-shadow 0.1s;
-      margin-bottom: 2px;
-    }
-    .mode-btn.sel .mode-dot {
-      background: var(--blue-bright);
-      box-shadow: 0 0 5px rgba(90,176,255,0.8);
-    }
-
-    .mode-name {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--text-dim);
-      transition: color 0.1s;
-    }
+    .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex-shrink: 0; }
+    .mode-btn { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px 8px; cursor: pointer; display: flex; flex-direction: column; gap: 2px; transition: border-color .1s, background .1s; text-align: left; }
+    .mode-btn.sel { border-color: var(--blue); background: #0a1828; }
+    .mode-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); transition: background .1s, box-shadow .1s; margin-bottom: 1px; }
+    .mode-btn.sel .mode-dot { background: var(--blue-bright); box-shadow: 0 0 5px rgba(90,176,255,.8); }
+    .mode-name { font-size: 18px; font-weight: 700; letter-spacing: 2px; color: var(--text-dim); transition: color .1s; }
     .mode-btn.sel .mode-name { color: var(--blue-bright); }
+    .mode-desc { font-size: 9px; letter-spacing: 1px; color: var(--text-dim); }
 
-    .mode-desc {
-      font-size: 10px;
-      letter-spacing: 1px;
-      color: var(--text-dim);
-    }
+    .stepin-row { display: grid; grid-template-columns: 1fr auto; gap: 6px; flex-shrink: 0; }
+    .step-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    .step-btn { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 4px 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: border-color .1s, background .1s; }
+    .step-btn.sel { border-color: #6040ff; background: #0a0820; }
+    .step-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border); transition: background .1s; }
+    .step-btn.sel .step-dot { background: #9070ff; box-shadow: 0 0 4px rgba(144,112,255,.8); }
+    .step-btn-name { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim); transition: color .1s; }
+    .step-btn.sel .step-btn-name { color: #b090ff; }
 
-    /* ── BOTTOM ROW ───────────────── */
-    .bottom-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7px;
-    }
+    .stepin-hold { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 72px; transition: border-color .08s, background .08s; }
+    .stepin-hold.pressed { border-color: #6040ff; background: #0a0820; }
+    .stepin-label { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim); transition: color .08s; }
+    .stepin-hold.pressed .stepin-label { color: #b090ff; }
+    .stepin-hint { font-size: 8px; letter-spacing: 2px; color: var(--text-dim); }
 
-    /* ── HORN ─────────────────────── */
-    .horn-btn {
-      background: var(--btn-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px 12px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      transition: border-color 0.08s, background 0.08s;
-    }
-    .horn-btn.pressed {
-      border-color: var(--amber);
-      background: #180e00;
-    }
-    .horn-name {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--text-dim);
-      transition: color 0.08s;
-    }
+    .bottom-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; flex-shrink: 0; }
+    .horn-btn { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 10px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; transition: border-color .08s, background .08s; }
+    .horn-btn.pressed { border-color: var(--amber); background: #180e00; }
+    .horn-name { font-size: 16px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim); transition: color .08s; }
     .horn-btn.pressed .horn-name { color: var(--amber); }
-    .horn-hint {
-      font-size: 9px;
-      letter-spacing: 2px;
-      color: var(--text-dim);
-    }
+    .horn-hint { font-size: 8px; letter-spacing: 2px; color: var(--text-dim); }
 
-    /* ── VOLUME ───────────────────── */
-    .vol-block {
-      background: var(--btn-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .vol-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .vol-lbl {
-      font-size: 9px;
-      letter-spacing: 3px;
-      color: var(--text-dim);
-      font-weight: 700;
-    }
-    .vol-val {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 3px;
-      background: var(--border);
-      border-radius: 2px;
-      outline: none;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: var(--blue-bright);
-      box-shadow: 0 0 6px rgba(90,176,255,0.6);
-      cursor: pointer;
-    }
+    .rev-btn { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 10px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; transition: border-color .1s, background .1s; }
+    .rev-btn.on { border-color: var(--green); background: #001808; }
+    .rev-name { font-size: 16px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim); transition: color .1s; }
+    .rev-btn.on .rev-name { color: var(--green); }
+    .rev-hint { font-size: 8px; letter-spacing: 2px; color: var(--text-dim); }
 
-    /* ── SCREEN FLASH ─────────────── */
-    #flashVeil {
-      position: fixed; inset: 0;
-      pointer-events: none;
-      z-index: 200;
-      background: rgba(0, 160, 255, 0.07);
-      opacity: 0;
-      transition: opacity 30ms;
-    }
+    .vol-block { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 10px; display: flex; flex-direction: column; gap: 7px; }
+    .vol-top { display: flex; justify-content: space-between; align-items: center; }
+    .vol-lbl { font-size: 8px; letter-spacing: 3px; color: var(--text-dim); font-weight: 700; }
+    .vol-val { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); }
+    input[type=range] { -webkit-appearance: none; width: 100%; height: 3px; background: var(--border); border-radius: 2px; outline: none; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--blue-bright); box-shadow: 0 0 6px rgba(90,176,255,.6); cursor: pointer; }
+
+    #flashVeil { position: fixed; inset: 0; pointer-events: none; z-index: 200; background: rgba(0,160,255,.07); opacity: 0; transition: opacity 30ms; }
   </style>
 </head>
 <body>
-
 <div id="flashVeil"></div>
 
-<!-- LIGHTBAR -->
 <div class="lightbar">
-  <div class="lb-half" id="lbL">
-    <div class="lb-pod" id="p0"></div>
-    <div class="lb-pod" id="p1"></div>
-    <div class="lb-pod" id="p2"></div>
-    <div class="lb-pod" id="p3"></div>
-    <div class="lb-pod" id="p4"></div>
+  <div class="lb-half">
+    <div class="lb-pod" id="p0"></div><div class="lb-pod" id="p1"></div>
+    <div class="lb-pod" id="p2"></div><div class="lb-pod" id="p3"></div><div class="lb-pod" id="p4"></div>
   </div>
   <div class="lb-center">POLITIET</div>
-  <div class="lb-half" id="lbR">
-    <div class="lb-pod" id="p5"></div>
-    <div class="lb-pod" id="p6"></div>
-    <div class="lb-pod" id="p7"></div>
-    <div class="lb-pod" id="p8"></div>
-    <div class="lb-pod" id="p9"></div>
+  <div class="lb-half">
+    <div class="lb-pod" id="p5"></div><div class="lb-pod" id="p6"></div>
+    <div class="lb-pod" id="p7"></div><div class="lb-pod" id="p8"></div><div class="lb-pod" id="p9"></div>
   </div>
 </div>
 
-<!-- STATUS BAR -->
 <div class="statusbar">
   <div class="status-pill" id="sPill">STANDBY</div>
   <div class="status-mode" id="sMode">HI-LO</div>
   <div class="status-vol" id="sVol">VOL 80%</div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
   <button class="siren-btn" id="sirenBtn" onclick="toggleSiren()">
@@ -389,207 +122,344 @@
   <div class="sec-label">SIRENETYPE</div>
   <div class="mode-grid">
     <button class="mode-btn sel" data-mode="hilo" onclick="selectMode('hilo',this)">
-      <div class="mode-dot"></div>
-      <div class="mode-name">HI-LO</div>
-      <div class="mode-desc">Europæisk to-tone</div>
+      <div class="mode-dot"></div><div class="mode-name">HI-LO</div>
+      <div class="mode-desc">770 / 960 Hz · dansk standard</div>
     </button>
     <button class="mode-btn" data-mode="wail" onclick="selectMode('wail',this)">
-      <div class="mode-dot"></div>
-      <div class="mode-name">WAIL</div>
-      <div class="mode-desc">Langsom sweep</div>
+      <div class="mode-dot"></div><div class="mode-name">WAIL</div>
+      <div class="mode-desc">500→1650 Hz · exp · 5,25 sek</div>
     </button>
     <button class="mode-btn" data-mode="yelp" onclick="selectMode('yelp',this)">
-      <div class="mode-dot"></div>
-      <div class="mode-name">YELP</div>
-      <div class="mode-desc">Hurtig sweep</div>
+      <div class="mode-dot"></div><div class="mode-name">YELP</div>
+      <div class="mode-desc">800→1200 Hz · lineær · 320 ms</div>
     </button>
     <button class="mode-btn" data-mode="phaser" onclick="selectMode('phaser',this)">
-      <div class="mode-dot"></div>
-      <div class="mode-name">PHASER</div>
-      <div class="mode-desc">FM-moduleret</div>
+      <div class="mode-dot"></div><div class="mode-name">PHASER</div>
+      <div class="mode-desc">700→1400 Hz · 4,5 Hz</div>
+    </button>
+  </div>
+
+  <div class="sec-label">SKIFT SIRENE (HOLD)</div>
+  <div class="stepin-row">
+    <div class="step-grid">
+      <button class="step-btn" data-smode="hilo" onclick="selectStepMode('hilo',this)">
+        <div class="step-dot"></div><div class="step-btn-name">HI-LO</div>
+      </button>
+      <button class="step-btn sel" data-smode="wail" onclick="selectStepMode('wail',this)">
+        <div class="step-dot"></div><div class="step-btn-name">WAIL</div>
+      </button>
+      <button class="step-btn" data-smode="yelp" onclick="selectStepMode('yelp',this)">
+        <div class="step-dot"></div><div class="step-btn-name">YELP</div>
+      </button>
+      <button class="step-btn" data-smode="phaser" onclick="selectStepMode('phaser',this)">
+        <div class="step-dot"></div><div class="step-btn-name">PHASER</div>
+      </button>
+    </div>
+    <button class="stepin-hold" id="stepBtn">
+      <div class="stepin-label">⇄ SKIFT</div>
+      <div class="stepin-hint">HOLD INDE</div>
     </button>
   </div>
 
   <div class="bottom-row">
-    <div>
-      <div class="sec-label" style="margin-bottom:7px">HORN</div>
-      <button class="horn-btn" id="hornBtn">
-        <div class="horn-name">◼ HORN</div>
-        <div class="horn-hint">HOLD INDE</div>
-      </button>
-    </div>
-    <div>
-      <div class="sec-label" style="margin-bottom:7px">LYDSTYRKE</div>
-      <div class="vol-block">
-        <div class="vol-top">
-          <div class="vol-lbl">VOL</div>
-          <div class="vol-val" id="volVal">80%</div>
-        </div>
-        <input type="range" id="volSlider" min="0" max="100" value="80" oninput="setVol(this.value)">
+    <button class="horn-btn" id="hornBtn">
+      <div class="horn-name">◼ HORN</div>
+      <div class="horn-hint">HOLD INDE</div>
+    </button>
+    <button class="rev-btn on" id="revBtn" onclick="toggleReverb()">
+      <div class="rev-name">◈ REVERB</div>
+      <div class="rev-hint">UDENDØRS</div>
+    </button>
+    <div class="vol-block">
+      <div class="vol-top">
+        <div class="vol-lbl">VOL</div>
+        <div class="vol-val" id="volVal">80%</div>
       </div>
+      <input type="range" id="volSlider" min="0" max="100" value="80" oninput="setVol(this.value)">
     </div>
   </div>
 
 </div>
 
 <script>
-// ── AUDIO ──────────────────────────────────────────────────
+// ── AUDIO GRAPH ───────────────────────────────────────
 let ctx, masterGain;
-let sirenNodes = [];
-let hornNodes  = [];
+let mainGainNode, stepGainNode, sirenCutGain;
+let sirenDryGain, sirenWetGain, reverbOutGain, convolver;
+
+let mainStack = null, stepStack = null;
+let mainController = null, stepController = null;
+let hornNodes = [];
+
 let sirenOn    = false;
 let hornOn     = false;
+let stepActive = false;
 let curMode    = 'hilo';
+let stepMode   = 'wail';
 let vol        = 0.8;
-let animId     = null;
-let hiloTimer  = null;
+let reverbOn   = true;
 
+// ── INIT ─────────────────────────────────────────────
 function ensureCtx() {
-  if (!ctx) {
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = ctx.createGain();
-    masterGain.gain.value = vol;
-    masterGain.connect(ctx.destination);
+  if (ctx) { if (ctx.state === 'suspended') ctx.resume(); return; }
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  masterGain    = ctx.createGain(); masterGain.gain.value = vol;
+  mainGainNode  = ctx.createGain(); mainGainNode.gain.value = 1;
+  stepGainNode  = ctx.createGain(); stepGainNode.gain.value = 0;
+  sirenCutGain  = ctx.createGain(); sirenCutGain.gain.value = 1;
+  sirenDryGain  = ctx.createGain(); sirenDryGain.gain.value = 0.78;
+  sirenWetGain  = ctx.createGain(); sirenWetGain.gain.value = 0.22;
+  reverbOutGain = ctx.createGain(); reverbOutGain.gain.value = reverbOn ? 1 : 0;
+
+  convolver = ctx.createConvolver();
+  convolver.buffer = makeReverbIR(0.75, 2.2);
+
+  masterGain.connect(ctx.destination);
+  mainGainNode.connect(sirenCutGain);
+  stepGainNode.connect(sirenCutGain);
+  sirenCutGain.connect(sirenDryGain);
+  sirenCutGain.connect(sirenWetGain);
+  sirenDryGain.connect(masterGain);
+  sirenWetGain.connect(convolver);
+  convolver.connect(reverbOutGain);
+  reverbOutGain.connect(masterGain);
+}
+
+// Syntetisk udendørs reverb impulse response
+function makeReverbIR(dur, decay) {
+  const sr  = ctx.sampleRate;
+  const len = Math.floor(sr * dur);
+  const buf = ctx.createBuffer(2, len, sr);
+  for (let c = 0; c < 2; c++) {
+    const d = buf.getChannelData(c);
+    for (let i = 0; i < len; i++) {
+      const early = i < sr * 0.04 ? 1.6 : 1.0;
+      d[i] = (Math.random() * 2 - 1) * early * Math.pow(1 - i / len, decay);
+    }
   }
-  if (ctx.state === 'suspended') ctx.resume();
+  return buf;
 }
 
-function killNodes(arr) {
-  arr.forEach(n => { try { n.stop && n.stop(); n.disconnect(); } catch(e){} });
-  arr.length = 0;
+// ── 3-OKTAV STACK ─────────────────────────────────────
+// sub (triangle, f/2) + mid (triangle, f) + top (square, f*2)
+// HPF 400Hz → LPF 6kHz → peaking +7dB @ 800Hz Q0.4
+function buildStack(freq, outputNode) {
+  const sub = ctx.createOscillator();
+  const mid = ctx.createOscillator();
+  const top = ctx.createOscillator();
+  sub.type = 'triangle'; mid.type = 'triangle'; top.type = 'square';
+
+  const gS = ctx.createGain(); gS.gain.value = 0.44;
+  const gM = ctx.createGain(); gM.gain.value = 0.46;
+  const gT = ctx.createGain(); gT.gain.value = 0.10;
+
+  const hpf  = ctx.createBiquadFilter();
+  hpf.type = 'highpass'; hpf.frequency.value = 400; hpf.Q.value = 0.5;
+
+  const lpf  = ctx.createBiquadFilter();
+  lpf.type = 'lowpass'; lpf.frequency.value = 6000; lpf.Q.value = 0.5;
+
+  const warm = ctx.createBiquadFilter();
+  warm.type = 'peaking'; warm.frequency.value = 800; warm.Q.value = 0.4; warm.gain.value = 7;
+
+  const out = ctx.createGain(); out.gain.value = 0.36;
+
+  sub.connect(gS); mid.connect(gM); top.connect(gT);
+  gS.connect(hpf); gM.connect(hpf); gT.connect(hpf);
+  hpf.connect(lpf); lpf.connect(warm); warm.connect(out);
+  out.connect(outputNode);
+
+  sub.frequency.value = freq * 0.5;
+  mid.frequency.value = freq;
+  top.frequency.value = freq * 2;
+  sub.start(); mid.start(); top.start();
+
+  return { sub, mid, top, nodes: [sub, mid, top, gS, gM, gT, hpf, lpf, warm, out] };
 }
 
-// ── SIREN MODES ────────────────────────────────────────────
+function killStack(s) {
+  if (!s) return;
+  s.nodes.forEach(n => { try { n.stop && n.stop(); n.disconnect(); } catch(e){} });
+}
+
+// Instant frekvens (rAF sweep)
+function sf(s, f) {
+  s.sub.frequency.value = f * 0.5;
+  s.mid.frequency.value = f;
+  s.top.frequency.value = f * 2;
+}
+
+// Hård frekvens via scheduler (HI-LO, ingen klik)
+function sfHard(s, f) {
+  const t = ctx.currentTime;
+  s.sub.frequency.setValueAtTime(f * 0.5, t);
+  s.mid.frequency.setValueAtTime(f, t);
+  s.top.frequency.setValueAtTime(f * 2, t);
+}
+
+// ── MODE ENGINE ───────────────────────────────────────
+// Returnerer { stop() }
+function startMode(mode, stack, driveLights) {
+  let rafId = null, timer = null;
+
+  if (mode === 'hilo') {
+    // 960/770 Hz, hårdt skift hvert 500ms — ingen glide
+    const freqs = [960, 770];
+    let phase = 0;
+    const step = () => {
+      sfHard(stack, freqs[phase]);
+      if (driveLights) flashLights(phase === 0);
+      phase = 1 - phase;
+    };
+    step();
+    timer = setInterval(step, 500);
+
+  } else if (mode === 'wail') {
+    // Patent-profil: eksponentiel 500→1650 Hz
+    // 1s op eksponentielt + 0.5s hang + 3.75s ned eksponentielt = 5.25s
+    const PERIOD = 5250, RISE = 1000, HANG = 500, FALL = 3750;
+    const LO = 500, HI = 1650;
+    let t0 = null;
+    const tick = ts => {
+      if (!t0) t0 = ts;
+      const e = (ts - t0) % PERIOD;
+      let f;
+      if (e < RISE)            f = LO * Math.pow(HI / LO, e / RISE);
+      else if (e < RISE + HANG) f = HI;
+      else                      f = HI * Math.pow(LO / HI, (e - RISE - HANG) / FALL);
+      sf(stack, f);
+      if (driveLights) flashLights(e < RISE + HANG);
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+  } else if (mode === 'yelp') {
+    // Lineær triangle 800→1200 Hz, 320ms periode (2.5 Hz)
+    const PERIOD = 320, LO = 800, HI = 1200;
+    let t0 = null;
+    const tick = ts => {
+      if (!t0) t0 = ts;
+      const ph = ((ts - t0) % PERIOD) / PERIOD;
+      const f  = ph < 0.5
+        ? LO + (HI - LO) * (ph * 2)
+        : HI - (HI - LO) * ((ph - 0.5) * 2);
+      sf(stack, f);
+      if (driveLights) flashLights(ph < 0.5);
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+  } else if (mode === 'phaser') {
+    // Lineær triangle 700→1400 Hz, 222ms periode (4.5 Hz)
+    const PERIOD = 222, LO = 700, HI = 1400;
+    let t0 = null;
+    const tick = ts => {
+      if (!t0) t0 = ts;
+      const ph = ((ts - t0) % PERIOD) / PERIOD;
+      const f  = ph < 0.5
+        ? LO + (HI - LO) * (ph * 2)
+        : HI - (HI - LO) * ((ph - 0.5) * 2);
+      sf(stack, f);
+      if (driveLights) flashLights(ph < 0.5);
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+  }
+
+  return { stop() { if (rafId) cancelAnimationFrame(rafId); if (timer) clearInterval(timer); } };
+}
+
+const modeStartFreq = { hilo: 960, wail: 500, yelp: 800, phaser: 700 };
+
+// ── SIREN ON/OFF ──────────────────────────────────────
 function startSiren() {
-  killNodes(sirenNodes);
-  if (animId)    { cancelAnimationFrame(animId); animId = null; }
-  if (hiloTimer) { clearInterval(hiloTimer); hiloTimer = null; }
   ensureCtx();
-  ({ hilo: doHiLo, wail: doWail, yelp: doYelp, phaser: doPhaser }[curMode])();
+  mainStack      = buildStack(modeStartFreq[curMode], mainGainNode);
+  mainController = startMode(curMode, mainStack, true);
 }
 
 function stopSiren() {
-  killNodes(sirenNodes);
-  if (animId)    { cancelAnimationFrame(animId); animId = null; }
-  if (hiloTimer) { clearInterval(hiloTimer); hiloTimer = null; }
+  if (mainController) { mainController.stop(); mainController = null; }
+  killStack(mainStack); mainStack = null;
+  stopStepIn();
   lightsOff();
 }
 
-// HI-LO — alternating 580 / 970 Hz, 550 ms each
-function doHiLo() {
-  const osc  = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sawtooth';
-  gain.gain.value = 0.55;
-  osc.connect(gain); gain.connect(masterGain);
-
-  const freqs = [970, 580];
-  let step = 0, t = ctx.currentTime;
-  for (let i = 0; i < 200; i++) {
-    osc.frequency.setValueAtTime(freqs[i % 2], t);
-    t += 0.55;
-  }
-  osc.start();
-  sirenNodes.push(osc, gain);
-
-  let phase = true;
-  hiloTimer = setInterval(() => { flashLights(phase); phase = !phase; }, 550);
+function toggleSiren() {
+  sirenOn = !sirenOn;
+  document.getElementById('sirenBtn').classList.toggle('on', sirenOn);
+  document.getElementById('sPill').classList.toggle('live', sirenOn);
+  document.getElementById('sPill').textContent  = sirenOn ? 'AKTIV'   : 'STANDBY';
+  document.getElementById('sirenSub').textContent = sirenOn ? '● AKTIV' : '● INAKTIV';
+  sirenOn ? startSiren() : stopSiren();
 }
 
-// WAIL — slow sine sweep 500→1400 Hz, 3 s
-function doWail() {
-  const osc  = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sawtooth'; gain.gain.value = 0.5;
-  osc.connect(gain); gain.connect(masterGain);
-  osc.start(); sirenNodes.push(osc, gain);
-
-  let t0 = null;
-  const period = 3000, lo = 500, hi = 1400;
-  function tick(ts) {
-    if (!t0) t0 = ts;
-    const ph = ((ts - t0) % period) / period;
-    osc.frequency.value = lo + (hi - lo) * (0.5 - 0.5 * Math.cos(ph * 2 * Math.PI));
-    flashLights(ph < 0.5);
-    animId = requestAnimationFrame(tick);
-  }
-  animId = requestAnimationFrame(tick);
-}
-
-// YELP — fast sweep 700→1600 Hz, 220 ms
-function doYelp() {
-  const osc  = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sawtooth'; gain.gain.value = 0.48;
-  osc.connect(gain); gain.connect(masterGain);
-  osc.start(); sirenNodes.push(osc, gain);
-
-  let t0 = null;
-  const period = 220, lo = 700, hi = 1600;
-  function tick(ts) {
-    if (!t0) t0 = ts;
-    const ph = ((ts - t0) % period) / period;
-    osc.frequency.value = lo + (hi - lo) * (0.5 - 0.5 * Math.cos(ph * 2 * Math.PI));
-    flashLights(ph < 0.5);
-    animId = requestAnimationFrame(tick);
-  }
-  animId = requestAnimationFrame(tick);
-}
-
-// PHASER — FM: carrier 900 Hz, LFO 3.5 Hz ±350 Hz
-function doPhaser() {
-  const car  = ctx.createOscillator();
-  const lfo  = ctx.createOscillator();
-  const lfoG = ctx.createGain();
-  const gain = ctx.createGain();
-  car.type = 'sawtooth'; car.frequency.value = 900;
-  lfo.type = 'sine';     lfo.frequency.value  = 3.5;
-  lfoG.gain.value = 350; gain.gain.value = 0.48;
-  lfo.connect(lfoG); lfoG.connect(car.frequency);
-  car.connect(gain); gain.connect(masterGain);
-  car.start(); lfo.start();
-  sirenNodes.push(car, lfo, lfoG, gain);
-
-  let t0 = null;
-  function tick(ts) {
-    if (!t0) t0 = ts;
-    flashLights(((ts - t0) % 286) < 143);
-    animId = requestAnimationFrame(tick);
-  }
-  animId = requestAnimationFrame(tick);
-}
-
-// ── HORN ───────────────────────────────────────────────────
-function startHorn() {
-  if (hornOn) return; hornOn = true;
+// ── STEP-IN ───────────────────────────────────────────
+function startStepIn() {
+  if (!sirenOn || stepActive) return;
+  stepActive = true;
   ensureCtx();
-  const o1 = ctx.createOscillator(), o2 = ctx.createOscillator();
-  const g  = ctx.createGain();
-  o1.type = 'sawtooth'; o1.frequency.value = 440;
-  o2.type = 'sawtooth'; o2.frequency.value = 554;
-  g.gain.value = 0.65;
-  o1.connect(g); o2.connect(g); g.connect(masterGain);
-  o1.start(); o2.start();
-  hornNodes.push(o1, o2, g);
+  mainGainNode.gain.setTargetAtTime(0, ctx.currentTime, 0.02);
+  stepGainNode.gain.setTargetAtTime(1, ctx.currentTime, 0.02);
+  stepStack      = buildStack(modeStartFreq[stepMode], stepGainNode);
+  stepController = startMode(stepMode, stepStack, false);
+  document.getElementById('stepBtn').classList.add('pressed');
+}
+
+function stopStepIn() {
+  if (!stepActive) return;
+  stepActive = false;
+  if (stepController) { stepController.stop(); stepController = null; }
+  killStack(stepStack); stepStack = null;
+  if (ctx) {
+    mainGainNode.gain.setTargetAtTime(1, ctx.currentTime, 0.02);
+    stepGainNode.gain.setTargetAtTime(0, ctx.currentTime, 0.02);
+  }
+  document.getElementById('stepBtn').classList.remove('pressed');
+}
+
+// ── HORN ──────────────────────────────────────────────
+function startHorn() {
+  if (hornOn) return;
+  hornOn = true;
+  ensureCtx();
+  // Cutter sirene ud, horn tager over
+  if (sirenOn) sirenCutGain.gain.setTargetAtTime(0, ctx.currentTime, 0.01);
+  [[440, 0.35], [554, 0.30]].forEach(([freq, g]) => {
+    const o = ctx.createOscillator(), os = ctx.createOscillator();
+    const gn = ctx.createGain(), gs = ctx.createGain();
+    const lpf = ctx.createBiquadFilter();
+    o.type = 'sawtooth'; o.frequency.value  = freq;
+    os.type = 'sawtooth'; os.frequency.value = freq * 0.5;
+    gn.gain.value = g; gs.gain.value = g * 0.6;
+    lpf.type = 'lowpass'; lpf.frequency.value = 2000;
+    o.connect(gn); os.connect(gs);
+    gn.connect(lpf); gs.connect(lpf); lpf.connect(masterGain);
+    o.start(); os.start();
+    hornNodes.push(o, os, gn, gs, lpf);
+  });
   document.getElementById('hornBtn').classList.add('pressed');
 }
+
 function stopHorn() {
-  if (!hornOn) return; hornOn = false;
-  killNodes(hornNodes);
+  if (!hornOn) return;
+  hornOn = false;
+  hornNodes.forEach(n => { try { n.stop && n.stop(); n.disconnect(); } catch(e){} });
+  hornNodes = [];
+  if (ctx && sirenOn) sirenCutGain.gain.setTargetAtTime(1, ctx.currentTime, 0.02);
   document.getElementById('hornBtn').classList.remove('pressed');
 }
 
-// ── LIGHTS ─────────────────────────────────────────────────
-const pods  = Array.from(document.querySelectorAll('.lb-pod'));
-const veil  = document.getElementById('flashVeil');
+// ── LIGHTS ────────────────────────────────────────────
+const pods = Array.from(document.querySelectorAll('.lb-pod'));
+const veil = document.getElementById('flashVeil');
 let lastPhase = null;
 
 function flashLights(leftOn) {
   if (leftOn === lastPhase) return;
   lastPhase = leftOn;
-  pods.forEach((p, i) => {
-    p.classList.toggle('on-blue', leftOn ? i < 5 : i >= 5);
-  });
+  pods.forEach((p, i) => p.classList.toggle('on-blue', leftOn ? i < 5 : i >= 5));
   veil.style.opacity = '1';
   requestAnimationFrame(() => { veil.style.opacity = '0'; });
 }
@@ -600,27 +470,32 @@ function lightsOff() {
   veil.style.opacity = '0';
 }
 
-// ── CONTROLS ───────────────────────────────────────────────
-function toggleSiren() {
-  sirenOn = !sirenOn;
-  const btn   = document.getElementById('sirenBtn');
-  const pill  = document.getElementById('sPill');
-  const sub   = document.getElementById('sirenSub');
-  btn.classList.toggle('on', sirenOn);
-  pill.classList.toggle('live', sirenOn);
-  pill.textContent = sirenOn ? 'AKTIV' : 'STANDBY';
-  sub.textContent  = sirenOn ? '● AKTIV' : '● INAKTIV';
-  sirenOn ? startSiren() : stopSiren();
-}
-
-const modeNames = { hilo:'HI-LO', wail:'WAIL', yelp:'YELP', phaser:'PHASER' };
+// ── CONTROLS ──────────────────────────────────────────
+const modeLabels = { hilo:'HI-LO', wail:'WAIL', yelp:'YELP', phaser:'PHASER' };
 
 function selectMode(mode, el) {
   curMode = mode;
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('sel'));
   el.classList.add('sel');
-  document.getElementById('sMode').textContent = modeNames[mode];
-  if (sirenOn) { stopSiren(); startSiren(); }
+  document.getElementById('sMode').textContent = modeLabels[mode];
+  if (sirenOn) {
+    if (mainController) mainController.stop();
+    killStack(mainStack);
+    mainStack      = buildStack(modeStartFreq[mode], mainGainNode);
+    mainController = startMode(mode, mainStack, true);
+  }
+}
+
+function selectStepMode(mode, el) {
+  stepMode = mode;
+  document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function toggleReverb() {
+  reverbOn = !reverbOn;
+  document.getElementById('revBtn').classList.toggle('on', reverbOn);
+  if (ctx) reverbOutGain.gain.setTargetAtTime(reverbOn ? 1 : 0, ctx.currentTime, 0.05);
 }
 
 function setVol(v) {
@@ -630,14 +505,19 @@ function setVol(v) {
   if (masterGain) masterGain.gain.value = vol;
 }
 
-// ── HORN EVENTS ────────────────────────────────────────────
-const hb = document.getElementById('hornBtn');
-hb.addEventListener('mousedown',   startHorn);
-hb.addEventListener('touchstart',  e => { e.preventDefault(); startHorn(); }, { passive: false });
-hb.addEventListener('mouseup',     stopHorn);
-hb.addEventListener('mouseleave',  stopHorn);
-hb.addEventListener('touchend',    stopHorn);
-hb.addEventListener('touchcancel', stopHorn);
+// ── EVENTS ────────────────────────────────────────────
+function addHold(id, onDown, onUp) {
+  const el = document.getElementById(id);
+  el.addEventListener('mousedown',   onDown);
+  el.addEventListener('touchstart',  e => { e.preventDefault(); onDown(); }, { passive: false });
+  el.addEventListener('mouseup',     onUp);
+  el.addEventListener('mouseleave',  onUp);
+  el.addEventListener('touchend',    onUp);
+  el.addEventListener('touchcancel', onUp);
+}
+
+addHold('hornBtn',  startHorn,   stopHorn);
+addHold('stepBtn',  startStepIn, stopStepIn);
 </script>
 </body>
 </html>
